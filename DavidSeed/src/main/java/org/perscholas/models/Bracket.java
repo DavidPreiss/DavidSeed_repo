@@ -7,7 +7,8 @@ public class Bracket {
 
     //fields
     @Id
-    int bracketID_int;
+    String bracketID_code;
+    String name;
     ArrayList<User> seededList;
     ArrayList<User> placingList;
     Match bracketMatch;
