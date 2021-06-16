@@ -9,6 +9,7 @@ public class Bracket {
     @Id
     String bracketID_code;
     String name;
+    boolean openToRegister,started,finished;
     ArrayList<User> seededList;
     ArrayList<User> placingList;
     Match bracketMatch;
@@ -41,19 +42,17 @@ public class Bracket {
         Fake players always lose and will always be the lowest seeds.
          */
 
-        //create a User Object that represents a bye
-        User byeGuy = new User(true);
         //figure out how many players will be in the final bracket
         int bracketSize = 1;
         while (bracketSize < MList.size())
             bracketSize = bracketSize * 2;
 
         /*
-        fill the MList with dummy User Objects
+        fill the MList with byes
         until the MList size matches the power of 2 we found
          */
         while(MList.size() < bracketSize)
-            MList.add(new Match(byeGuy));
+            MList.add(new Match(true));
         /*
         Now that we have a List of Matches of a size that is a power of 2,
         we just need to pair them up until we have one big Match object.
