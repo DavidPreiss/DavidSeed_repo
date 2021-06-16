@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>courseStudentSignup</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+<!-- Responsive navbar-->
+<nav th:replace="fragments/home.html :: navbar">
+
+</nav>
+<h1 style = "text-align:center"> Course Signup</h1>
+
+
+<div align="center">
+<form action="/course/registerStudentAlt" method="post">
+    <label for="formemail">Student Email:</label><br>
+    <input type="text" id="formemail"  name="email" required/><br>
+    <label for="formcourseid">Course Id:</label><br>
+    <input type="text" id="formcourseid"  name="courseID" required/><br>
+
+    <input type="submit" value="submit" />
+
+</form>
+</div>
+
+<div align="center">
+<form action="/course/registerStudent" method="post" >
+<th:block th:each="course : ${availableCourses}">
+    <div class = "container">
+        <input type="checkbox" th:id="${course.id}" th:name="${course.id}" th:value="${course.id}"></input>
+        <label th:text = "${course.name}" th:for="${course.id}"></label>
+    </div>
+</th:block>
+    <input type="submit" value="submit">
+</form>
+</div>
+
+</body>
+</html>
