@@ -3,9 +3,10 @@ package org.perscholas.controllers;
 
 import org.perscholas.models.Course;
 import org.perscholas.models.Student;
+import org.perscholas.models.User;
 import org.perscholas.services.CourseService;
 import org.perscholas.services.StudentService;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.perscholas.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +19,16 @@ import java.util.Map;
 
 
 @Controller
-@SessionAttributes({"student"})
+@SessionAttributes({"student","user"})
 public class HomeController {
 
     private final StudentService studentService;
+    private final UserService userService;
     private final CourseService courseService;
 
-    public HomeController(StudentService studentService, CourseService courseService) {
+    public HomeController(StudentService studentService, UserService userService, CourseService courseService) {
         this.studentService = studentService;
+        this.userService = userService;
         this.courseService = courseService;
     }
 
@@ -33,6 +36,11 @@ public class HomeController {
     @ModelAttribute("student")
     public Student student() {
         return new Student();
+    }
+
+    @ModelAttribute("user")
+    public User user() {
+        return new User();
     }
 
     @ModelAttribute("course")
@@ -56,6 +64,13 @@ public class HomeController {
         return "template";
     }
 
+
+
+    @GetMapping("/findUser")
+    public String findUser() {
+        //model.addAttribute("allStudents", studentService.getAllStudent());
+        return "findUser";
+    }
     @GetMapping("/allStudents")
     public String allStudents(Model model) {
         model.addAttribute("allStudents", studentService.getAllStudent());
@@ -73,10 +88,17 @@ public class HomeController {
         return "studentConfirmation";
     }
 
+    @GetMapping("/user")
+    public String userHome() {
+        return "userConfirmation";
+    }
+
     @GetMapping("/student/register")
     public String studentRegistration(@SessionAttribute("student") Student student){
         return "studentRegistration";
     }
+
+
 
     @PostMapping("/student/register")
     public String studentRegister(@ModelAttribute("student") @Valid Student student, BindingResult result, Model model) {
@@ -88,6 +110,26 @@ public class HomeController {
             Student databaseStudent = studentService.saveStudent(student);
             model.addAttribute("student", student);
             return "redirect:/student";
+        }
+    }
+
+
+    @GetMapping("/user/register")
+    public String userRegistration(@SessionAttribute("user") User user){
+        return "userRegistration";
+    }
+
+
+    @PostMapping("/user/register")
+    public String userRegister(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
+        System.out.println(result.hasErrors());
+        if(result.hasErrors()) {
+            return "userRegistration";
+
+        }else{
+            User databaseUser = userService.saveUser(user);
+            model.addAttribute("user", user);
+            return "redirect:/user";
         }
     }
 

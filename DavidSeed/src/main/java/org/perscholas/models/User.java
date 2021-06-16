@@ -28,12 +28,14 @@ public class User {
         this.password = password;
         this.creationDate = new Date();
         this.bye = false;
+        this.displayName = this.name;
     }
 
     public User(boolean isBye)
     {
         this.bye = isBye;
         this.name = "Bye";
+        this.displayName = this.name;
     }
 
     @Id
@@ -41,7 +43,7 @@ public class User {
     String email;
 
     @Length(min = 3, max = 25, message = "should be between {1} and {2}")
-    @NotBlank(message = "Please Enter a Name")
+    @NotBlank(message = "Please Enter a Username")
     String name;
     /*
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$",
@@ -50,10 +52,11 @@ public class User {
     */
     String password;
     Date creationDate;
-    boolean bye;
+    boolean bye =false;
+    String displayName;
 
     public void printName()
     {
-        System.out.println(this.getName());
+        System.out.println(this.getDisplayName());
     }
 }
