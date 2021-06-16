@@ -33,6 +33,10 @@ public class UserService {
         return userRepo.save(s);
     }
 
+    public void deleteUser(User s) {
+        userRepo.delete(s);
+    }
+
     public User getUserByEmail(String email) {
         return userRepo.getById(email);
     }

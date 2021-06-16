@@ -26,16 +26,14 @@ public class User {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.creationDate = new Date();
         this.bye = false;
-        this.displayName = this.name;
+        //not used
     }
 
     public User(boolean isBye)
     {
         this.bye = isBye;
         this.name = "Bye";
-        this.displayName = this.name;
     }
 
     @Id
@@ -51,12 +49,12 @@ public class User {
                     " 1 lowercase letter, and 1 number\n- Can contain special characters")
     */
     String password;
-    Date creationDate;
-    boolean bye =false;
-    String displayName;
+    Date creationDate = new Date();
+    boolean bye;
+    String displayName = name;
 
     public void printName()
     {
-        System.out.println(this.getDisplayName());
+        System.out.println(this.getName());
     }
 }

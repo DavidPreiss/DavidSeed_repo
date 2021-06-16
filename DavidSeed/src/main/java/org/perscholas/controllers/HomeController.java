@@ -1,6 +1,7 @@
 package org.perscholas.controllers;
 
 
+import org.perscholas.dao.IUserRepo;
 import org.perscholas.models.Course;
 import org.perscholas.models.Student;
 import org.perscholas.models.User;
@@ -25,11 +26,13 @@ public class HomeController {
     private final StudentService studentService;
     private final UserService userService;
     private final CourseService courseService;
+    private final IUserRepo userRepo;
 
-    public HomeController(StudentService studentService, UserService userService, CourseService courseService) {
+    public HomeController(StudentService studentService, UserService userService, CourseService courseService, IUserRepo userRepo) {
         this.studentService = studentService;
         this.userService = userService;
         this.courseService = courseService;
+        this.userRepo = userRepo;
     }
 
 
@@ -77,6 +80,7 @@ public class HomeController {
         return "allStudents";
     }
 
+
     @GetMapping("/allCourses")
     public String allCourses(Model model) {
         model.addAttribute("allCourses", courseService.getAllCourses());
@@ -92,6 +96,49 @@ public class HomeController {
     public String userHome() {
         return "userConfirmation";
     }
+
+
+    @GetMapping("/allUsers")
+    public String allUsers(Model model) {
+        model.addAttribute("allUsers", userService.getAllUser());
+        return "allUsers";
+    }
+
+
+
+    @GetMapping("/userProfile")
+    public String userProfile(@RequestParam("userEmail") String email, Model model)
+    {
+
+        User profileUser = userService.getUserByEmail(email);
+
+        model.addAttribute("user", profileUser);
+        return "userProfile";
+    }
+
+    @GetMapping("/deleteUser")
+    public String deleteUser(@RequestParam("userEmail") String email)
+    {
+
+        User deletedUser = userService.getUserByEmail(email);
+        userRepo.deleteById(deletedUser.getEmail());
+        return "redirect:/allUsers";
+    }
+/*
+    @PostMapping("/allUsers")
+    public String allUsersDelete(@ModelAttribute("user") @Valid User user, BindingResult result, Model model)
+    {
+        User databaseUser = user;
+        userService.deleteUser(user);
+        model.addAttribute("user", user);
+        return "redirect:/user/deleted";
+    }
+*/
+    @GetMapping("/user/deleted")
+    public String userDeleted() {
+        return "userDeleted";
+    }
+
 
     @GetMapping("/student/register")
     public String studentRegistration(@SessionAttribute("student") Student student){
