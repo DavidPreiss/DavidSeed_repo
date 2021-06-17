@@ -1,5 +1,25 @@
 package org.perscholas.models;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Data
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+//Database
+@Entity
+//Spring Boot
+@Repository
+
+@Component
+@Table
 public class Match {
     //fields
     Match match1;

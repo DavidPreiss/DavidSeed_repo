@@ -2,9 +2,11 @@ package org.perscholas.controllers;
 
 
 import org.perscholas.dao.IUserRepo;
+import org.perscholas.models.Bracket;
 import org.perscholas.models.Course;
 import org.perscholas.models.Student;
 import org.perscholas.models.User;
+import org.perscholas.services.BracketService;
 import org.perscholas.services.CourseService;
 import org.perscholas.services.StudentService;
 import org.perscholas.services.UserService;
@@ -26,12 +28,19 @@ public class HomeController {
     private final StudentService studentService;
     private final UserService userService;
     private final CourseService courseService;
+    private final BracketService bracketService;
     private final IUserRepo userRepo;
 
-    public HomeController(StudentService studentService, UserService userService, CourseService courseService, IUserRepo userRepo) {
+    public HomeController(StudentService studentService,
+                          UserService userService,
+                          CourseService courseService,
+                          BracketService bracketService,
+                          IUserRepo userRepo)
+    {
         this.studentService = studentService;
         this.userService = userService;
         this.courseService = courseService;
+        this.bracketService = bracketService;
         this.userRepo = userRepo;
     }
 
@@ -180,6 +189,23 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/bracket/create")
+    public String bracketCreation() {
+        return "bracketCreation";
+    }
+
+    @PostMapping("/bracket/create")
+    public String courseRegister(@ModelAttribute("bracket") @Valid Bracket bracket, BindingResult result, Model model) {
+        System.out.println(result.hasErrors());
+        if(result.hasErrors()) {
+            return "bracketCreation";
+
+        }else{
+            System.out.println("Bracket ID: " + bracket.getBracketID_code());
+            Bracket newCourse = bracketService.saveBracket(bracket);
+            return "bracketConfirmation";
+        }
+    }
     @GetMapping("/course/register")
     public String courseRegistration() {
         return "courseRegistration";

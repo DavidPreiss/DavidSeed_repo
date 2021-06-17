@@ -1,20 +1,44 @@
 package org.perscholas.models;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class Bracket {
-
+@Data
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+//Database
+@Entity
+//Spring Boot
+@Component
+@Repository
+@Table
+public class Bracket implements Serializable {
+    static final long serialVersionUID = 6381462249347345007L;
     //fields
     @Id
     String bracketID_code;
     String name;
-    boolean openToRegister,started,finished;
+    boolean openToRegister = true;
+    Date creationDate = new Date();
+    //Date registrationClosesAt, matchesStartAt, bracketEndedAt;
+    //ArrayList<User> staffList;
+    //User creatorUser;
     ArrayList<User> seededList;
     ArrayList<User> placingList;
     Match bracketMatch;
 
-    void CreateBracket()
+    void CreateBracketMatch()
     {
         this.bracketMatch = MatchMaker(seededList);
     }
