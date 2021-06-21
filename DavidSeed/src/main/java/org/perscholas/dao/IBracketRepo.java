@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface IBracketRepo extends JpaRepository<Bracket,String>
 {
-
-    Optional<Bracket> findBracketById(String id_code);
+//not needed
+    //Optional<Bracket> findBracketById(String id_code);
 }

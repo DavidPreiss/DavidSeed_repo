@@ -22,20 +22,6 @@ import java.util.Date;
 @Component
 public class User {
 
-    public User(String email, String name, String password) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.bye = false;
-        //not used
-    }
-
-    public User(boolean isBye)
-    {
-        this.bye = isBye;
-        this.name = "Bye";
-    }
-
     @Id
     @Email(regexp = "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b",message = "Invalid email address")
     String email;
@@ -52,6 +38,21 @@ public class User {
     Date creationDate = new Date();
     boolean bye;
     String displayName = name;
+
+    public User(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.bye = false;
+        //not used
+    }
+
+    public User(boolean isBye)
+    {
+        this.bye = isBye;
+        this.name = "Bye";
+    }
+
 
     public void printName()
     {

@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,21 +23,21 @@ import java.util.Date;
 @Entity
 //Spring Boot
 @Component
-@Repository
-@Table
 public class Bracket implements Serializable {
     static final long serialVersionUID = 6381462249347345007L;
     //fields
     @Id
-    String bracketID_code;
+    String id;
     String name;
     boolean openToRegister = true;
     Date creationDate = new Date();
     //Date registrationClosesAt, matchesStartAt, bracketEndedAt;
     //ArrayList<User> staffList;
     //User creatorUser;
-    ArrayList<User> seededList;
-    ArrayList<User> placingList;
+    @OneToMany
+    List<User> seededList;
+    @OneToMany
+    List<User> placingList;
     Match bracketMatch;
 
     void CreateBracketMatch()
@@ -43,7 +45,7 @@ public class Bracket implements Serializable {
         this.bracketMatch = MatchMaker(seededList);
     }
 
-    Match MatchMaker(ArrayList<User> inputList)
+    Match MatchMaker(List<User> inputList)
     {
         //input:    List of Users sorted by seed
         //output:   single Match object that contains all info on who plays who

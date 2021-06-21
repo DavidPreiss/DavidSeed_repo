@@ -34,7 +34,7 @@ public class BracketService  {
     }
 
     public Optional<Bracket> getBracketById(String id_code) {
-        Optional<Bracket> bracketOptional = bracketRepo.findBracketById(id_code);
+        Optional<Bracket> bracketOptional = bracketRepo.findById(id_code);
         return bracketOptional;
     }
 

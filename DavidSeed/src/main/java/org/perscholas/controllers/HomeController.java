@@ -60,6 +60,11 @@ public class HomeController {
         return new Course();
     }
 
+    @ModelAttribute("bracket")
+    public Bracket bracket() {
+        return new Bracket();
+    }
+
     /*
             - controllers should be separated e.g. @RequestMapping("admin"), @RequestMapping("student")
             - provide as much as possible e.g. get/post/put/delete mappings
@@ -201,7 +206,7 @@ public class HomeController {
             return "bracketCreation";
 
         }else{
-            System.out.println("Bracket ID: " + bracket.getBracketID_code());
+            System.out.println("Bracket ID: " + bracket.getId());
             Bracket newCourse = bracketService.saveBracket(bracket);
             return "bracketConfirmation";
         }

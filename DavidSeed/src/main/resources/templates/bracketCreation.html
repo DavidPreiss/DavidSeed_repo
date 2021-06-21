@@ -21,9 +21,9 @@
   <form th:action="@{/bracket/create}" method="post" th:object="${bracket}">
 
     <label for="formid">Bracket Id:</label>    <br>
-    <input type="text" id="formid"  th:field="*{bracketID_code}" required/>    <br>
+    <input type="text" id="formid"  th:field="*{id}" required/>    <br>
     <div>
-      <p class="error" th:each="error : ${#fields.errors('bracketID_code')}" th:text="${error}"></p>
+      <p class="error" th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
     </div>
 
     <label for="formname">Bracket Name:</label>

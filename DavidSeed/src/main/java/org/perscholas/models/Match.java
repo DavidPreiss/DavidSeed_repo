@@ -2,13 +2,14 @@ package org.perscholas.models;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -16,14 +17,17 @@ import javax.persistence.Table;
 //Database
 @Entity
 //Spring Boot
-@Repository
-
 @Component
 @Table
-public class Match {
+public class Match implements Serializable {
+    static final long serialVersionUID = 6381462249347345007L;
     //fields
+    @Id
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
     Match match1;
     Match match2;
+    @OneToOne(optional = true)
     User player;
     boolean endpoint;
     boolean bye;
@@ -59,7 +63,7 @@ public class Match {
     {
         if (endpoint)
         {
-            player.printName();
+            this.player.printName();
         }
         else
         {
