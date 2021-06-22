@@ -36,8 +36,10 @@ public class AppStartup implements CommandLineRunner {
 
         User myFirstUser = new User("first@test.com", "firstname","123");
         User mySecondUser = new User("second@test.com", "secondname","123");
+        User myThirdUser = new User("third@test.com", "thirdname","123");
         userRepo.save(myFirstUser);
         userRepo.save(mySecondUser);
+        userRepo.save(myThirdUser);
         log.warn(userRepo.findAll().toString());
         Bracket myFirstBracket = new Bracket("firstBracketID","firstBracketName");
         Bracket mySecondBracket = new Bracket("secondBracketID","secondBracketName");

@@ -26,6 +26,30 @@
   <p>    Bracket Created:    <span th:text = "${bracket.creationDate}"></span>  </p>
 </div>
 
+<!--<button th:attr="onclick=|addUser('${bracket.id}')|" >-->
+<!--  add user-->
+<!--</button>-->
+<!--<script>-->
+<!--    function addUser(input){-->
+<!--    let userEmail = prompt("Enter Email of Existing User");-->
+<!--    window.location = "/AddNewUserToBracket?bracketID=" +input+"?userEmail=" + userEmail ;-->
+<!--    }-->
+<!--  </script>-->
+
+<!--<a th:href="@{/AddNewUserToBracket(bracketID=${bracket.id},userEmail=${bracket.id})}">Profile Page</a></p>-->
+<div align="center">
+  <form th:action="@{/AddNewUserToBracket}" method="post">
+
+
+    <label for="email">email:</label><br>
+    <input type="email" id="email" name="userEmail" /><br>
+
+    <input type="hidden" th:value="${bracket.id}" name="bracketID">
+
+    <input type="submit" value="submit" />
+  </form>
+</div>
+
 <th:block th:each="user : ${bracket.seededList}">
   <p>    User:<span th:text = "${user.name}"></span>  </p>
 </th:block>

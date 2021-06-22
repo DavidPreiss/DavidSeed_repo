@@ -1,7 +1,8 @@
 package org.perscholas.services;
+import lombok.extern.slf4j.Slf4j;
 import org.perscholas.dao.IBracketRepo;
+import org.perscholas.dao.IUserRepo;
 import org.perscholas.models.Bracket;
-import org.perscholas.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,14 +13,17 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Transactional
+@Slf4j
 @Service
 public class BracketService  {
 
     private final IBracketRepo bracketRepo;
+    private final IUserRepo userRepo;
 
     @Autowired
-    public BracketService(IBracketRepo bracketRepoInput) {
+    public BracketService(IBracketRepo bracketRepoInput, IUserRepo userRepo) {
         this.bracketRepo = bracketRepoInput;
+        this.userRepo = userRepo;
     }
 
      /*
@@ -31,11 +35,21 @@ public class BracketService  {
     public Bracket saveBracket(Bracket savedBracket) {
         return bracketRepo.save(savedBracket);
     }
-    public void saveBracketWithUsers(Bracket savedBracket, List<User> userList)
+    public boolean AddNewUserToBracket(String bracketID, String userEmail)
     {
-        savedBracket.setSeededList(userList);
-        bracketRepo.save(savedBracket);
+        Bracket updatedBracket = bracketRepo.getById(bracketID);
+        if (updatedBracket.getSeededList().contains(userRepo.getById(userEmail)))
+        {
+            log.info("Already in Bracket");
+            return false;
+        }
+        updatedBracket.getSeededList().add(userRepo.getById(userEmail));
+        bracketRepo.save(updatedBracket);
+        log.info("Added User" + userRepo.getById(userEmail).getName());
+        return true;
+
     }
+
 
     public List<Bracket> getAllBrackets() {
         return bracketRepo.findAll();

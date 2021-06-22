@@ -1,6 +1,7 @@
 package org.perscholas.controllers;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.perscholas.dao.IBracketRepo;
 import org.perscholas.dao.IUserRepo;
 import org.perscholas.models.Bracket;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 @Controller
 @SessionAttributes({"student","user"})
 public class HomeController {
@@ -139,12 +140,25 @@ public class HomeController {
         return "userProfile";
     }
     @GetMapping("/bracketProfile")
-    public String bracketProfile(@RequestParam("bracketID") String id, Model model)
+    public String bracketProfile(@RequestParam(value = "bracketID") String id, Model model)
     {
 
         Bracket profileBracket = bracketService.getBracketById(id).get();
 
         model.addAttribute("bracket", profileBracket);
+        return "bracketProfile";
+    }
+    @PostMapping("/AddNewUserToBracket")
+    public String AddNewUserToBracket(@RequestParam("bracketID") String id,
+                                      @RequestParam("userEmail")String email,
+                                      Model model)
+    {
+        log.warn(id + " " + email);
+
+        bracketService.AddNewUserToBracket(id,email);
+        Bracket profileBracket = bracketService.getBracketById(id).get();
+        model.addAttribute("bracket",profileBracket);
+        //model.addAttribute("bracketID", id);
         return "bracketProfile";
     }
 
@@ -179,13 +193,10 @@ public class HomeController {
         return "userDeleted";
     }
 
-
     @GetMapping("/student/register")
     public String studentRegistration(@SessionAttribute("student") Student student){
         return "studentRegistration";
     }
-
-
 
     @PostMapping("/student/register")
     public String studentRegister(@ModelAttribute("student") @Valid Student student, BindingResult result, Model model) {
