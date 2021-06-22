@@ -1,14 +1,17 @@
 package org.perscholas.services;
 import org.perscholas.dao.IBracketRepo;
 import org.perscholas.models.Bracket;
+import org.perscholas.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.transaction.Transactional;
 import java.util.Optional;
 
-
+@Transactional
 @Service
 public class BracketService  {
 
@@ -27,6 +30,11 @@ public class BracketService  {
 
     public Bracket saveBracket(Bracket savedBracket) {
         return bracketRepo.save(savedBracket);
+    }
+    public void saveBracketWithUsers(Bracket savedBracket, List<User> userList)
+    {
+        savedBracket.setSeededList(userList);
+        bracketRepo.save(savedBracket);
     }
 
     public List<Bracket> getAllBrackets() {

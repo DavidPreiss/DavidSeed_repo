@@ -27,6 +27,14 @@
 
       <a th:href="@{/bracketProfile(bracketID=${bracket.id})}">Profile Page</a></p>
   </div>
+  <button th:attr="onclick=|bProfile('${bracket.id}')|" >
+bracket profile
+  </button>
+  <script>
+    function bProfile(input){
+    window.location = "/bracketProfile?bracketID=" + input;
+    }
+  </script>
 </th:block>
 
 <!-- Bootstrap core JS-->

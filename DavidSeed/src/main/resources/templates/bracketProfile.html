@@ -26,6 +26,10 @@
   <p>    Bracket Created:    <span th:text = "${bracket.creationDate}"></span>  </p>
 </div>
 
+<th:block th:each="user : ${bracket.seededList}">
+  <p>    User:<span th:text = "${user.name}"></span>  </p>
+</th:block>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
