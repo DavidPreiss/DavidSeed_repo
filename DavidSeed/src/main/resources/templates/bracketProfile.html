@@ -23,6 +23,7 @@
   <p> The following bracket was selected</p>
   <p>    Name:<span th:text = "${bracket.name}"></span>  </p>
   <p>    ID:<span th:text = "${bracket.id}"></span>  </p>
+  <p>    Players:<span th:text = "${bracket.seededList.size()}"></span>  </p>
   <p>    Bracket Created:    <span th:text = "${bracket.creationDate}"></span>  </p>
 </div>
 
@@ -46,22 +47,22 @@
 
     <input type="hidden" th:value="${bracket.id}" name="bracketID">
 
-    <input type="submit" value="submit" />
+    <input type="submit" value="Add Player" />
   </form>
 </div>
 
 <th:block th:each="user : ${bracket.seededList}">
-  <p>    User:<span th:text = "${user.name}"></span>  </p>
+  <p>
+    Seed:<span th:text="${bracket.seededList.indexOf(user)+1}"></span>
+    User:<span th:text = "${user.name}"></span>
+    <a th:href="@{/userProfile(userEmail=${user.email})}">Profile Page</a></p>
 
-  <form th:action="@{/RemoveUserFromBracket}" method="post">
-
-
-    <input type="hidden" id="email" th:value="${user.email}" name="userEmail" />
-
-    <input type="hidden" th:value="${bracket.id}" name="bracketID"/>
-
-    <input type="submit" value="remove"/>
-  </form>
+    <form th:action="@{/RemoveUserFromBracket}" method="post">
+      <input type="hidden" id="email" th:value="${user.email}" name="userEmail" />
+      <input type="hidden" th:value="${bracket.id}" name="bracketID"/>
+      <input type="submit" value="remove"/>
+    </form>
+  </p>
 </th:block>
 
 <!-- Bootstrap core JS-->

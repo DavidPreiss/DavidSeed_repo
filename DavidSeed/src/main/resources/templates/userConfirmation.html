@@ -23,6 +23,7 @@
   <p> The following user was registered</p>
   <span th:text = "${user.email}"></span>
   <span th:text = "${user.name}"></span>
+  <a th:href="@{/userProfile(userEmail=${user.email})}">Profile Page</a></p>
 </div>
 
 <!-- Bootstrap core JS-->
