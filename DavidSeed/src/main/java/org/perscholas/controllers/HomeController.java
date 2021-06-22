@@ -1,6 +1,7 @@
 package org.perscholas.controllers;
 
 
+import org.perscholas.dao.IBracketRepo;
 import org.perscholas.dao.IUserRepo;
 import org.perscholas.models.Bracket;
 import org.perscholas.models.Course;
@@ -30,18 +31,20 @@ public class HomeController {
     private final CourseService courseService;
     private final BracketService bracketService;
     private final IUserRepo userRepo;
+    private final IBracketRepo bracketRepo;
 
     public HomeController(StudentService studentService,
                           UserService userService,
                           CourseService courseService,
                           BracketService bracketService,
-                          IUserRepo userRepo)
+                          IUserRepo userRepo, IBracketRepo bracketRepo)
     {
         this.studentService = studentService;
         this.userService = userService;
         this.courseService = courseService;
         this.bracketService = bracketService;
         this.userRepo = userRepo;
+        this.bracketRepo = bracketRepo;
     }
 
 
@@ -117,6 +120,12 @@ public class HomeController {
         model.addAttribute("allUsers", userService.getAllUser());
         return "allUsers";
     }
+    @GetMapping("/allBrackets")
+    public String allBrackets(Model model) {
+        model.addAttribute("allBrackets", bracketService.getAllBrackets());
+        return "allBrackets";
+    }
+
 
 
 
@@ -137,6 +146,14 @@ public class HomeController {
         User deletedUser = userService.getUserByEmail(email);
         userRepo.deleteById(deletedUser.getEmail());
         return "redirect:/allUsers";
+    }
+    @GetMapping("/deleteBracket")
+    public String deleteBracket(@RequestParam("bracketID") String id)
+    {
+        //TO DO change to optional and redirect to a missing page if its not there.
+        Bracket deletedBracket = bracketService.getBracketById(id).get();
+        bracketRepo.deleteById(deletedBracket.getId());
+        return "redirect:/allBrackets";
     }
 /*
     @PostMapping("/allUsers")
