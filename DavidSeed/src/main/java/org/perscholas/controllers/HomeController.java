@@ -138,6 +138,15 @@ public class HomeController {
         model.addAttribute("user", profileUser);
         return "userProfile";
     }
+    @GetMapping("/bracketProfile")
+    public String bracketProfile(@RequestParam("bracketID") String id, Model model)
+    {
+
+        Bracket profileBracket = bracketService.getBracketById(id).get();
+
+        model.addAttribute("bracket", profileBracket);
+        return "bracketProfile";
+    }
 
     @GetMapping("/deleteUser")
     public String deleteUser(@RequestParam("userEmail") String email)
