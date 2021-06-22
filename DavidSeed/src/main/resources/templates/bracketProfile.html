@@ -52,6 +52,16 @@
 
 <th:block th:each="user : ${bracket.seededList}">
   <p>    User:<span th:text = "${user.name}"></span>  </p>
+
+  <form th:action="@{/RemoveUserFromBracket}" method="post">
+
+
+    <input type="hidden" id="email" th:value="${user.email}" name="userEmail" />
+
+    <input type="hidden" th:value="${bracket.id}" name="bracketID"/>
+
+    <input type="submit" value="remove"/>
+  </form>
 </th:block>
 
 <!-- Bootstrap core JS-->

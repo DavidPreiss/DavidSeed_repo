@@ -161,6 +161,20 @@ public class HomeController {
         //model.addAttribute("bracketID", id);
         return "bracketProfile";
     }
+    @PostMapping("/RemoveUserFromBracket")
+    public String RemoveUserFromBracket(@RequestParam("bracketID") String id,
+                                      @RequestParam("userEmail")String email,
+                                      Model model)
+    {
+        log.warn(id + " " + email);
+
+        bracketService.RemoveUserFromBracket(id,email);
+        Bracket profileBracket = bracketService.getBracketById(id).get();
+        model.addAttribute("bracket",profileBracket);
+        //model.addAttribute("bracketID", id);
+        return "bracketProfile";
+    }
+
 
     @GetMapping("/deleteUser")
     public String deleteUser(@RequestParam("userEmail") String email)
