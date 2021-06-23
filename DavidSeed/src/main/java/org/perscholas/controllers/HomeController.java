@@ -3,11 +3,9 @@ package org.perscholas.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.dao.IBracketRepo;
+import org.perscholas.dao.ISeededPlayerRepo;
 import org.perscholas.dao.IUserRepo;
-import org.perscholas.models.Bracket;
-import org.perscholas.models.Course;
-import org.perscholas.models.Student;
-import org.perscholas.models.User;
+import org.perscholas.models.*;
 import org.perscholas.services.BracketService;
 import org.perscholas.services.CourseService;
 import org.perscholas.services.StudentService;
@@ -33,12 +31,13 @@ public class HomeController {
     private final BracketService bracketService;
     private final IUserRepo userRepo;
     private final IBracketRepo bracketRepo;
+    private final ISeededPlayerRepo seededOrderRepo;
 
     public HomeController(StudentService studentService,
                           UserService userService,
                           CourseService courseService,
                           BracketService bracketService,
-                          IUserRepo userRepo, IBracketRepo bracketRepo)
+                          IUserRepo userRepo, IBracketRepo bracketRepo, ISeededPlayerRepo seededOrderRepo)
     {
         this.studentService = studentService;
         this.userService = userService;
@@ -46,6 +45,7 @@ public class HomeController {
         this.bracketService = bracketService;
         this.userRepo = userRepo;
         this.bracketRepo = bracketRepo;
+        this.seededOrderRepo = seededOrderRepo;
     }
 
 
@@ -140,11 +140,21 @@ public class HomeController {
         return "userProfile";
     }
     @GetMapping("/bracketProfile")
-    public String bracketProfile(@RequestParam(value = "bracketID") String id, Model model)
+    public String bracketProfile(@RequestParam(value = "bracketID") String bID, Model model)
     {
 
-        Bracket profileBracket = bracketService.getBracketById(id).get();
+        Bracket profileBracket = bracketService.getBracketById(bID).get();
+        //ArrayList<SeededPlayer> ;
+        ArrayList<User> seededPlayerList = new ArrayList<>();
+        for (User user : profileBracket.getSeededList())
+        {
 
+            seededPlayerList.add(
+                    seededOrderRepo.getById(user.getEmail()+"+"+bID).getSeed()-1,
+                    userRepo.getById(user.getEmail())
+                    );
+        }
+        profileBracket.setSeededList(seededPlayerList);
         model.addAttribute("bracket", profileBracket);
         return "bracketProfile";
     }

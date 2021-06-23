@@ -2,6 +2,7 @@ package org.perscholas.models;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +35,9 @@ public class Bracket implements Serializable {
     //User creatorUser;
     @OneToMany(fetch = FetchType.EAGER)
     List<User> seededList;
+    //@OneToMany(fetch = FetchType.EAGER)
+    //List<String> playerIDList;
+
     //@OneToMany(fetch = FetchType.EAGER)
     //List<User> placingList;
     Match bracketMatch;

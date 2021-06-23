@@ -54,6 +54,8 @@
 <th:block th:each="user : ${bracket.seededList}">
   <p>
     Seed:<span th:text="${bracket.seededList.indexOf(user)+1}"></span>
+    Seed:<span th:text="${bracket.seededList.indexOf(user)+1}"></span>
+
     User:<span th:text = "${user.name}"></span>
     <div th:replace="fragments/buttons.html :: userProfileButton"></div>
 
