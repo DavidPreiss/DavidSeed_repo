@@ -100,7 +100,8 @@ public class BracketService  {
 
 
     }
-    public boolean AddNewUserToBracketo(String bracketID, String userEmail, int seed)
+
+    /*public boolean AddNewUserToBracketo(String bracketID, String userEmail, int seed)
     {
         Bracket updatedBracket = bracketRepo.getById(bracketID);
         if(userRepo.findByEmail(userEmail).isEmpty())
@@ -122,6 +123,7 @@ public class BracketService  {
         return true;
 
     }
+    */
     public boolean AddNewUserToBracket(String bracketID, String userID, int seed)
     {
         Bracket updatedBracket = bracketRepo.getById(bracketID);

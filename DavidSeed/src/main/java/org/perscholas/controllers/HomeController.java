@@ -145,11 +145,12 @@ public class HomeController {
 
         Bracket profileBracket = bracketService.getBracketById(bID).get();
         //ArrayList<SeededPlayer> ;
-        ArrayList<User> seededPlayerList = new ArrayList<>();
+        ArrayList<User> seededPlayerList = new ArrayList<>();// = profileBracket.getSeededList();
+        while(seededPlayerList.size()<profileBracket.getSeededList().size())seededPlayerList.add(new User());
         for (User user : profileBracket.getSeededList())
         {
 
-            seededPlayerList.add(
+            seededPlayerList.set(
                     seededOrderRepo.getById(user.getEmail()+"+"+bID).getSeed()-1,
                     userRepo.getById(user.getEmail())
                     );
@@ -164,12 +165,16 @@ public class HomeController {
                                       Model model)
     {
         log.warn(id + " " + email);
+        //Can't add same user to multiple brackets for some reason
 
         bracketService.AddNewUserToBracket(id,email);
         Bracket profileBracket = bracketService.getBracketById(id).get();
         model.addAttribute("bracket",profileBracket);
-        //model.addAttribute("bracketID", id);
-        return "bracketProfile";
+        model.addAttribute("bracket",profileBracket);
+        model.addAttribute("bracketID", id);
+        //return "bracketProfile";
+        return "redirect:/bracketProfile?bracketID="+id;
+
     }
     @PostMapping("/RemoveUserFromBracket")
     public String RemoveUserFromBracket(@RequestParam("bracketID") String id,
@@ -181,8 +186,10 @@ public class HomeController {
         bracketService.RemoveUserFromBracket(id,email);
         Bracket profileBracket = bracketService.getBracketById(id).get();
         model.addAttribute("bracket",profileBracket);
-        //model.addAttribute("bracketID", id);
-        return "bracketProfile";
+        model.addAttribute("bracket",profileBracket);
+        model.addAttribute("bracketID", id);
+        //return "bracketProfile";
+        return "redirect:/bracketProfile?bracketID="+id;
     }
 
 
