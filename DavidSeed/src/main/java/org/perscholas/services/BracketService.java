@@ -54,6 +54,28 @@ public class BracketService  {
         return true;
 
     }
+    public boolean AddNewUserToBracket(String bracketID, String userEmail, int seed)
+    {
+        Bracket updatedBracket = bracketRepo.getById(bracketID);
+        if(userRepo.findByEmail(userEmail).isEmpty())
+        {
+            log.warn("User Does not exist");
+            return false;
+        }
+        if (updatedBracket.getSeededList().contains(userRepo.getById(userEmail)))
+        {
+            log.info("Already in Bracket");
+            return false;
+        }
+
+        int location = (seed - 1);
+        while (location > updatedBracket.getSeededList().size()) location--;
+        updatedBracket.getSeededList().add(location,userRepo.getById(userEmail));
+        bracketRepo.save(updatedBracket);
+        log.info("Added User " + userRepo.getById(userEmail).getName());
+        return true;
+
+    }
     public boolean RemoveUserFromBracket(String bracketID, String userEmail)
     {
         Bracket updatedBracket = bracketRepo.getById(bracketID);

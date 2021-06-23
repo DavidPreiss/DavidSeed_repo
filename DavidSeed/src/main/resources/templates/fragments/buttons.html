@@ -23,5 +23,15 @@
     }
   </script>
 </div>
+<div th:fragment="userProfileButton">
+  <button th:attr="onclick=|uProfile('${user.email}')|" >
+    user profile
+  </button>
+  <script>
+    function uProfile(input){
+    window.location = "/userProfile?userEmail=" + input;
+    }
+  </script>
+</div>
 </body>
 </html>

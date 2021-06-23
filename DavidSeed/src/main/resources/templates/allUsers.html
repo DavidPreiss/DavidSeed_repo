@@ -28,6 +28,7 @@
 
     <a th:href="@{/userProfile(userEmail=${user.email})}">Profile Page</a></p>
   </div>
+  <div th:replace="fragments/buttons.html :: userProfileButton"></div>
 </th:block>
 
 <!-- Bootstrap core JS-->
