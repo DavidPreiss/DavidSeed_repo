@@ -46,9 +46,14 @@ public class User implements Serializable {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.bye = false;
         this.creationDate = new Date();
     }
+    //
+//    public User(@NonNull String email, @NonNull String name, @NonNull String password) {
+//        this.email = email;
+//        this.name = name;
+//        this.password = password;
+//    }
 
     public User(boolean isBye)
     {
