@@ -15,7 +15,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 //Database
 @Entity
@@ -28,8 +27,15 @@ public class Bracket implements Serializable {
     String id;
     @NonNull
     String name;
-    boolean openToRegister = true;
+    //boolean openToRegister = true;
     Date creationDate = new Date();
+
+    public Bracket(@NonNull String id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+        this.creationDate = new Date();
+    }
+
     //Date registrationClosesAt, matchesStartAt, bracketEndedAt;
     //ArrayList<User> staffList;
     //User creatorUser;
@@ -45,7 +51,6 @@ public class Bracket implements Serializable {
         if(seededList.isEmpty())return "No Contestants";
         return MatchMaker(seededList).asString();
     }
-
 
     void CreateBracketMatch()
     {

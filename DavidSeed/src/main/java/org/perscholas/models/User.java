@@ -39,11 +39,13 @@ public class User {
     boolean bye;
     String displayName = name;
 
+
     public User(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.bye = false;
+        this.creationDate = new Date();
         //not used
     }
 
