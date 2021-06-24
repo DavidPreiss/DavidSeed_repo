@@ -10,6 +10,7 @@ import org.perscholas.services.BracketService;
 import org.perscholas.services.CourseService;
 import org.perscholas.services.StudentService;
 import org.perscholas.services.UserService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -161,13 +162,16 @@ public class HomeController {
     }
     @PostMapping("/AddNewUserToBracket")
     public String AddNewUserToBracket(@RequestParam("bracketID") String id,
-                                      @RequestParam("userEmail")String email,
+                                      @RequestParam("userID")String email,
+                                      @Param("seed")Integer seed,
                                       Model model)
     {
         log.warn(id + " " + email);
         //Can't add same user to multiple brackets for some reason
-
-        bracketService.AddNewUserToBracket(id,email);
+        if (seed==null || seed <1)
+            bracketService.AddNewUserToBracket(id,email);
+        else
+            bracketService.AddNewUserToBracket(id,email,seed);
         Bracket profileBracket = bracketService.getBracketById(id).get();
         model.addAttribute("bracket",profileBracket);
         model.addAttribute("bracket",profileBracket);
