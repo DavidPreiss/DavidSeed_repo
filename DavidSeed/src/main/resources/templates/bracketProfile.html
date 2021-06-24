@@ -71,6 +71,27 @@
   </div>
 </th:block>
 
+<button th:attr="onclick=|makeMatch('${bracket.id}')|">
+  makeMatch
+</button>
+<script>
+    function makeMatch(input){
+    window.location = "/makeMatch?bracketID=" + input;
+    }
+  </script>
+<!--
+
+<div align="center">
+  <form th:action="@{/MakeMatch}" method="post">
+
+    <input type="hidden" th:value="${bracket.StringMatch()}" name="matchString">
+
+    <input type="submit" value="Make Match" />
+  </form>
+</div>
+
+-->
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

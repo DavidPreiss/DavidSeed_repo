@@ -140,6 +140,28 @@ public class HomeController {
         model.addAttribute("user", profileUser);
         return "userProfile";
     }
+    @GetMapping("/makeMatch")
+    public String makeMatch(@RequestParam(value = "bracketID") String bID, Model model)
+    {
+
+        Bracket profileBracket = bracketService.getBracketById(bID).get();
+        //ArrayList<SeededPlayer> ;
+        ArrayList<User> seededPlayerList = new ArrayList<>();// = profileBracket.getSeededList();
+        while(seededPlayerList.size()<profileBracket.getSeededList().size())seededPlayerList.add(new User());
+        for (User user : profileBracket.getSeededList())
+        {
+
+            seededPlayerList.set(
+                    seededOrderRepo.getById(user.getEmail()+"+"+bID).getSeed()-1,
+                    userRepo.getById(user.getEmail())
+            );
+        }
+        profileBracket.setSeededList(seededPlayerList);
+        String matchString = profileBracket.StringMatch();
+        model.addAttribute("matchString", matchString);
+        return "matchStringPage";
+    }
+
     @GetMapping("/bracketProfile")
     public String bracketProfile(@RequestParam(value = "bracketID") String bID, Model model)
     {

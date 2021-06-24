@@ -59,16 +59,19 @@ public class Match implements Serializable {
         else this.endpoint = false;
     }
 
-    public void print()
+    public String asString()
     {
         if (endpoint)
         {
-            this.player.printName();
+            return this.player.getName();
         }
         else
         {
-            this.match1.print();
-            this.match2.print();
+            return "^^^\r\n"+
+                    this.match1.asString()+
+                    "\r\nxxx\r\n"+
+                    this.match2.asString()+
+                    "\r\nvvv\r\n";
         }
     }
 }
