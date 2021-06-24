@@ -16,13 +16,14 @@
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
   <div class="container">
-    <a class="navbar-brand" th:href="@{/}">Student Management System</a>
+    <a class="navbar-brand" th:href="@{/}">Bracket Management System</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Home</a></li>
 <!--        <li class="nav-item"><a class="nav-link" th:href="@{/student/register}">Register New Student</a></li>-->
-        <li class="nav-item"><a class="nav-link" th:href="@{/user/register}">New User</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/aboutMe}">About Me</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/user/register}">New User</a></li>
 <!--        <li class="nav-item"><a class="nav-link" th:href="@{/findUser}">Find User</a></li>-->
 <!--        <li class="nav-item"><a class="nav-link" th:href="@{/course/register}">Create New Course</a></li>-->
         <li class="nav-item"><a class="nav-link" th:href="@{/bracket/create}">New Bracket</a></li>

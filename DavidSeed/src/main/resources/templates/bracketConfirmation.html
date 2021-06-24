@@ -19,10 +19,8 @@
 </nav>
 <h1 style="text-align:center">Bracket confirmation</h1>
 <p>You created the bracket</p>
-<p>ID</p>
-<span th:text = "${bracket.id}"></span>
-<p>Name</p>
-<span th:text = "${bracket.name}"></span>
+<p>ID: <span th:text = "${bracket.id}"></span></p>
+<p>Name: <span th:text = "${bracket.name}"></span></p>
 </div>
 
 <div th:replace="fragments/buttons.html :: bracketProfileButton"></div>

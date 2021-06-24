@@ -71,7 +71,7 @@ public class Match implements Serializable {
                     this.match1.asString()+
                     "\r\nxxx\r\n"+
                     this.match2.asString()+
-                    "\r\nvvv\r\n";
+                    "\r\nvvv";
         }
     }
 }

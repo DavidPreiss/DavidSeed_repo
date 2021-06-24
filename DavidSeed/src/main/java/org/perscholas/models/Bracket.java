@@ -41,7 +41,10 @@ public class Bracket implements Serializable {
     //@OneToMany(fetch = FetchType.EAGER)
     //List<User> placingList;
     Match bracketMatch;
-    public String StringMatch(){return MatchMaker(seededList).asString();}
+    public String StringMatch(){
+        if(seededList.isEmpty())return "No Contestants";
+        return MatchMaker(seededList).asString();
+    }
 
 
     void CreateBracketMatch()

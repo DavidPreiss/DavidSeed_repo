@@ -255,6 +255,8 @@ public class HomeController {
         return "studentRegistration";
     }
 
+
+
     @PostMapping("/student/register")
     public String studentRegister(@ModelAttribute("student") @Valid Student student, BindingResult result, Model model) {
         System.out.println(result.hasErrors());
@@ -392,6 +394,9 @@ public class HomeController {
     return "getsession";
     }
 
-
+    @GetMapping("/aboutMe")
+    public String aboutMe(){
+        return "aboutMe";
+    }
 
 }

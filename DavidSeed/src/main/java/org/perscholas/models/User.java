@@ -27,7 +27,7 @@ public class User {
     String email;
 
     @Length(min = 3, max = 25, message = "should be between {1} and {2}")
-    @NotBlank(message = "Please Enter a Username")
+    //@NotBlank(message = "Please Enter a Username")
     String name;
     /*
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$",
