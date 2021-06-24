@@ -272,7 +272,7 @@ public class HomeController {
 
 
     @GetMapping("/user/register")
-    public String userRegistration(@SessionAttribute("user") User user){
+    public String userRegistration(){
         return "userRegistration";
     }
 
