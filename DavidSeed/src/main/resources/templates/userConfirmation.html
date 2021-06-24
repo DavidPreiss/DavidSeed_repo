@@ -23,6 +23,7 @@
   <p> The following user was registered</p>
   <span th:text = "${user.email}"></span>
   <span th:text = "${user.name}"></span>
+  <div th:replace="fragments/buttons.html :: userProfileButton"></div>
 </div>
 
 <!-- Bootstrap core JS-->

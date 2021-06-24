@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th ="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="../css/styles.css" rel="stylesheet" />
+  <title>Bracket Profile</title>
+</head>
+<body>
+
+<!-- Responsive navbar-->
+<nav th:replace="fragments/home.html :: navbar">
+
+</nav>
+<div>
+  <h1> Bracket</h1>
+  <p> The following bracket was selected</p>
+  <p>    Name:<span th:text = "${bracket.name}"></span>  </p>
+  <p>    ID:<span th:text = "${bracket.id}"></span>  </p>
+  <p>    Players:<span th:text = "${bracket.seededList.size()}"></span>  </p>
+  <p>    Bracket Created:    <span th:text = "${bracket.creationDate}"></span>  </p>
+</div>
+
+<!--<button th:attr="onclick=|addUser('${bracket.id}')|" >-->
+<!--  add user-->
+<!--</button>-->
+<!--<script>-->
+<!--    function addUser(input){-->
+<!--    let userEmail = prompt("Enter Email of Existing User");-->
+<!--    window.location = "/AddNewUserToBracket?bracketID=" +input+"?userEmail=" + userEmail ;-->
+<!--    }-->
+<!--  </script>-->
+
+<!--<a th:href="@{/AddNewUserToBracket(bracketID=${bracket.id},userEmail=${bracket.id})}">Profile Page</a></p>-->
+<div align="center">
+  <form th:action="@{/AddNewUserToBracket}" method="post">
+
+
+    <label for="email">email:</label>
+    <input type="email" id="email" name="userID" /><br>
+    <label for="seed">Seed:</label>
+    <input type="number" id="seed" name="seed"/><br>
+
+    <input type="hidden" th:value="${bracket.id}" name="bracketID">
+
+    <input type="submit" value="Add Player" />
+  </form>
+</div>
+
+<th:block th:each="user : ${bracket.seededList}">
+  <div style="display: table-row">
+
+    <div style="display: table-cell">
+      <form th:action="@{/RemoveUserFromBracket}" method="post">
+        <input type="hidden" th:value="${user.email}" name="userEmail" />
+        <input type="hidden" th:value="${bracket.id}" name="bracketID"/>
+        <input type="submit" value="remove"/>
+      </form>
+    </div>
+    <div style="display: table-cell">
+      <div th:replace="fragments/buttons.html :: userProfileButton"></div>
+    </div>
+    Seed:<span th:text="${bracket.seededList.indexOf(user)+1}"></span>
+    User:<span th:text = "${user.name}"></span>
+  </div>
+</th:block>
+
+<button th:attr="onclick=|makeMatch('${bracket.id}')|">
+  makeMatch
+</button>
+<script>
+    function makeMatch(input){
+    window.location = "/makeMatch?bracketID=" + input;
+    }
+  </script>
+<!--
+
+<div align="center">
+  <form th:action="@{/MakeMatch}" method="post">
+
+    <input type="hidden" th:value="${bracket.StringMatch()}" name="matchString">
+
+    <input type="submit" value="Make Match" />
+  </form>
+</div>
+
+-->
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

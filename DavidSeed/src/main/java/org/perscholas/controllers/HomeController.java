@@ -1,16 +1,16 @@
 package org.perscholas.controllers;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.perscholas.dao.IBracketRepo;
+import org.perscholas.dao.ISeededPlayerRepo;
 import org.perscholas.dao.IUserRepo;
-import org.perscholas.models.Bracket;
-import org.perscholas.models.Course;
-import org.perscholas.models.Student;
-import org.perscholas.models.User;
+import org.perscholas.models.*;
 import org.perscholas.services.BracketService;
 import org.perscholas.services.CourseService;
 import org.perscholas.services.StudentService;
 import org.perscholas.services.UserService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 @Controller
 @SessionAttributes({"student","user"})
 public class HomeController {
@@ -32,12 +32,13 @@ public class HomeController {
     private final BracketService bracketService;
     private final IUserRepo userRepo;
     private final IBracketRepo bracketRepo;
+    private final ISeededPlayerRepo seededOrderRepo;
 
     public HomeController(StudentService studentService,
                           UserService userService,
                           CourseService courseService,
                           BracketService bracketService,
-                          IUserRepo userRepo, IBracketRepo bracketRepo)
+                          IUserRepo userRepo, IBracketRepo bracketRepo, ISeededPlayerRepo seededOrderRepo)
     {
         this.studentService = studentService;
         this.userService = userService;
@@ -45,6 +46,7 @@ public class HomeController {
         this.bracketService = bracketService;
         this.userRepo = userRepo;
         this.bracketRepo = bracketRepo;
+        this.seededOrderRepo = seededOrderRepo;
     }
 
 
@@ -138,6 +140,84 @@ public class HomeController {
         model.addAttribute("user", profileUser);
         return "userProfile";
     }
+    @GetMapping("/makeMatch")
+    public String makeMatch(@RequestParam(value = "bracketID") String bID, Model model)
+    {
+
+        Bracket profileBracket = bracketService.getBracketById(bID).get();
+        //ArrayList<SeededPlayer> ;
+        ArrayList<User> seededPlayerList = new ArrayList<>();// = profileBracket.getSeededList();
+        while(seededPlayerList.size()<profileBracket.getSeededList().size())seededPlayerList.add(new User());
+        for (User user : profileBracket.getSeededList())
+        {
+
+            seededPlayerList.set(
+                    seededOrderRepo.getById(user.getEmail()+"+"+bID).getSeed()-1,
+                    userRepo.getById(user.getEmail())
+            );
+        }
+        profileBracket.setSeededList(seededPlayerList);
+        String matchString = profileBracket.StringMatch();
+        model.addAttribute("matchString", matchString);
+        return "matchStringPage";
+    }
+
+    @GetMapping("/bracketProfile")
+    public String bracketProfile(@RequestParam(value = "bracketID") String bID, Model model)
+    {
+
+        Bracket profileBracket = bracketService.getBracketById(bID).get();
+        //ArrayList<SeededPlayer> ;
+        ArrayList<User> seededPlayerList = new ArrayList<>();// = profileBracket.getSeededList();
+        while(seededPlayerList.size()<profileBracket.getSeededList().size())seededPlayerList.add(new User());
+        for (User user : profileBracket.getSeededList())
+        {
+
+            seededPlayerList.set(
+                    seededOrderRepo.getById(user.getEmail()+"+"+bID).getSeed()-1,
+                    userRepo.getById(user.getEmail())
+                    );
+        }
+        profileBracket.setSeededList(seededPlayerList);
+        model.addAttribute("bracket", profileBracket);
+        return "bracketProfile";
+    }
+    @PostMapping("/AddNewUserToBracket")
+    public String AddNewUserToBracket(@RequestParam("bracketID") String id,
+                                      @RequestParam("userID")String email,
+                                      @Param("seed")Integer seed,
+                                      Model model)
+    {
+        log.warn(id + " " + email);
+        //Can't add same user to multiple brackets for some reason
+        if (seed==null || seed <1)
+            bracketService.AddNewUserToBracket(id,email);
+        else
+            bracketService.AddNewUserToBracket(id,email,seed);
+        Bracket profileBracket = bracketService.getBracketById(id).get();
+        model.addAttribute("bracket",profileBracket);
+        model.addAttribute("bracket",profileBracket);
+        model.addAttribute("bracketID", id);
+        //return "bracketProfile";
+        return "redirect:/bracketProfile?bracketID="+id;
+
+    }
+    @PostMapping("/RemoveUserFromBracket")
+    public String RemoveUserFromBracket(@RequestParam("bracketID") String id,
+                                      @RequestParam("userEmail")String email,
+                                      Model model)
+    {
+        log.warn(id + " " + email);
+
+        bracketService.RemoveUserFromBracket(id,email);
+        Bracket profileBracket = bracketService.getBracketById(id).get();
+        model.addAttribute("bracket",profileBracket);
+        model.addAttribute("bracket",profileBracket);
+        model.addAttribute("bracketID", id);
+        //return "bracketProfile";
+        return "redirect:/bracketProfile?bracketID="+id;
+    }
+
 
     @GetMapping("/deleteUser")
     public String deleteUser(@RequestParam("userEmail") String email)
@@ -169,7 +249,6 @@ public class HomeController {
     public String userDeleted() {
         return "userDeleted";
     }
-
 
     @GetMapping("/student/register")
     public String studentRegistration(@SessionAttribute("student") Student student){
@@ -315,6 +394,9 @@ public class HomeController {
     return "getsession";
     }
 
-
+    @GetMapping("/aboutMe")
+    public String aboutMe(){
+        return "aboutMe";
+    }
 
 }

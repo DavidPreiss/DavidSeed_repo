@@ -1,16 +1,12 @@
 package org.perscholas.models;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +14,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 //Database
 @Entity
@@ -26,19 +24,28 @@ import java.util.List;
 public class Bracket implements Serializable {
     static final long serialVersionUID = 6381462249347345007L;
     //fields
-    @Id
+    @Id @NonNull
     String id;
+    @NonNull
     String name;
     boolean openToRegister = true;
     Date creationDate = new Date();
     //Date registrationClosesAt, matchesStartAt, bracketEndedAt;
     //ArrayList<User> staffList;
     //User creatorUser;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<User> seededList;
-    @OneToMany
-    List<User> placingList;
+    //@OneToMany(fetch = FetchType.EAGER)
+    //List<String> playerIDList;
+
+    //@OneToMany(fetch = FetchType.EAGER)
+    //List<User> placingList;
     Match bracketMatch;
+    public String StringMatch(){
+        if(seededList.isEmpty())return "No Contestants";
+        return MatchMaker(seededList).asString();
+    }
+
 
     void CreateBracketMatch()
     {

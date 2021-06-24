@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:fragment="bracketProfileButton">
+  <button th:attr="onclick=|bProfile('${bracket.id}')|">
+    bracket profile
+  </button>
+  <script>
+    function bProfile(input){
+    window.location = "/bracketProfile?bracketID=" + input;
+    }
+  </script>
+</div>
+<div th:fragment="userProfileButton">
+  <button th:attr="onclick=|uProfile('${user.email}')|">
+    user profile
+  </button>
+  <script>
+    function uProfile(input){
+    window.location = "/userProfile?userEmail=" + input;
+    }
+  </script>
+</div>
+</body>
+</html>

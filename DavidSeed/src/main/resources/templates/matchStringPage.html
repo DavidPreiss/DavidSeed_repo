@@ -10,7 +10,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
   <!-- Core theme CSS (includes Bootstrap)-->
   <link href="../css/styles.css" rel="stylesheet" />
-  <title>User Profile</title>
+  <title>Match String Page</title>
 </head>
 <body>
 
@@ -18,13 +18,16 @@
 <nav th:replace="fragments/home.html :: navbar">
 
 </nav>
+
 <div>
-  <h1> User</h1>
-  <p> The following user was selected</p>
-  <p>    Email: <span th:text = "${user.email}"></span>  </p>
-  <p>    Username: <span th:text = "${user.name}"></span>  </p>
-  <p>    Password: <span th:text = "${user.password}"></span>  </p>
-  <p>    Account Created:    <span th:text = "${user.creationDate}"></span>  </p>
+  <h1> Match string:</h1>
+<!--  <p th:text = "${matchString}" > </p>-->
+<!--  <p th:utext="${matchString.replace( matchString.escapeXml( text ),
+T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}" ></p>-->
+
+  <div class = "container">
+  <p data-th-utext="${#strings.replace(#strings.escapeXml(matchString),'&#10;','&lt;br&gt;')}"></p>
+  </div>
 </div>
 
 <!-- Bootstrap core JS-->
